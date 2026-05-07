@@ -2,9 +2,9 @@ import pygame
 import random
 import sys
 
-# ==========================================
+
 # CONFIGURATION
-# ==========================================
+
 ROWS = 20
 COLS = 25
 CELL_SIZE = 30
@@ -29,9 +29,8 @@ pygame.display.set_caption("Building and Running Mazes")
 
 clock = pygame.time.Clock()
 
-# ==========================================
 # MAZE REPRESENTATION
-# ==========================================
+
 # northWall[r][c]
 # True  -> upper wall exists
 # False -> upper wall removed
@@ -43,7 +42,7 @@ clock = pygame.time.Clock()
 # Extra phantom boundaries:
 # northWall[0][c] represents bottom edge
 # eastWall[r][0] represents left edge
-# ==========================================
+
 
 northWall = [[True for _ in range(COLS)] for _ in range(ROWS + 1)]
 eastWall = [[True for _ in range(COLS + 1)] for _ in range(ROWS)]
@@ -56,9 +55,9 @@ solverVisited = [[False for _ in range(COLS)] for _ in range(ROWS)]
 deadEnds = [[False for _ in range(COLS)] for _ in range(ROWS)]
 
 
-# ==========================================
+
 # DRAW MAZE
-# ==========================================
+
 def draw_maze():
 
     screen.fill(GRAY)
@@ -126,9 +125,9 @@ def draw_maze():
                 )
 
 
-# ==========================================
+
 # GET UNVISITED NEIGHBORS
-# ==========================================
+
 def get_unvisited_neighbors(r, c):
 
     neighbors = []
@@ -153,9 +152,8 @@ def get_unvisited_neighbors(r, c):
     return neighbors
 
 
-# ==========================================
 # REMOVE WALL BETWEEN CELLS
-# ==========================================
+
 def remove_wall(r1, c1, r2, c2):
 
     # Moving up
@@ -175,9 +173,8 @@ def remove_wall(r1, c1, r2, c2):
         eastWall[r1][c1 + 1] = False
 
 
-# ==========================================
 # BONUS EXTRA WALL REMOVAL
-# ==========================================
+
 def add_random_cycle(r, c):
 
     directions = [
@@ -200,10 +197,9 @@ def add_random_cycle(r, c):
             break
 
 
-# ==========================================
 # MAZE GENERATION
 # DFS + STACK
-# ==========================================
+
 def generate_maze():
 
     stack = []
@@ -268,9 +264,8 @@ def generate_maze():
         clock.tick(FPS)
 
 
-# ==========================================
 # GET AVAILABLE MOVES
-# ==========================================
+
 def get_available_moves(r, c):
 
     moves = []
@@ -297,9 +292,8 @@ def get_available_moves(r, c):
 
     return moves
 
-# ==========================================
 # SOLVE MAZE
-# ==========================================
+
 def solve_maze(start_r, start_c, end_r, end_c):
 
     stack = []
@@ -366,9 +360,8 @@ def solve_maze(start_r, start_c, end_r, end_c):
             return
 
 
-# ==========================================
 # HANDLE EVENTS
-# ==========================================
+
 def handle_events():
 
     for event in pygame.event.get():
@@ -378,9 +371,9 @@ def handle_events():
             sys.exit()
 
 
-# ==========================================
+
 # MAIN
-# ==========================================
+
 def main():
 
     generate_maze()

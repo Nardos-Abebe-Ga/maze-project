@@ -79,6 +79,25 @@ def get_neighbors(cell):
                 neighbors.append(neighbor)
 
     return neighbors
+def remove_walls(current, next_cell):
+    dx = current.col - next_cell.col
+    dy = current.row - next_cell.row
+
+    if dx == 1:
+        current.walls['left'] = False
+        next_cell.walls['right'] = False
+
+    elif dx == -1:
+        current.walls['right'] = False
+        next_cell.walls['left'] = False
+
+    if dy == 1:
+        current.walls['top'] = False
+        next_cell.walls['bottom'] = False
+
+    elif dy == -1:
+        current.walls['bottom'] = False
+        next_cell.walls['top'] = False
 
 
 current = grid[0][0]
@@ -100,8 +119,12 @@ while True:
     neighbors = get_neighbors(current)
 
     if neighbors:
-        current = random.choice(neighbors)
-        current.visited = True
+     next_cell = random.choice(neighbors)
+
+    remove_walls(current, next_cell)
+
+    current = next_cell
+    current.visited = True
 
     x = current.col * CELL_SIZE + CELL_SIZE // 2
     y = current.row * CELL_SIZE + CELL_SIZE // 2

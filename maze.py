@@ -1,5 +1,6 @@
 import pygame
 import sys
+import random
 
 pygame.init()
 
@@ -17,6 +18,7 @@ clock = pygame.time.Clock()
 
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
+GREEN = (0, 255, 0)
 
 
 class Cell:
@@ -31,9 +33,14 @@ class Cell:
             'left': True
         }
 
+        self.visited = False
+
     def draw(self):
         x = self.col * CELL_SIZE
         y = self.row * CELL_SIZE
+
+        if self.visited:
+            pygame.draw.rect(screen, (220, 220, 220), (x, y, CELL_SIZE, CELL_SIZE))
 
         if self.walls['top']:
             pygame.draw.line(screen, BLACK, (x, y), (x + CELL_SIZE, y), 2)
@@ -48,15 +55,34 @@ class Cell:
             pygame.draw.line(screen, BLACK, (x, y), (x, y + CELL_SIZE), 2)
 
 
-grid = []
+grid = [[Cell(r, c) for c in range(COLS)] for r in range(ROWS)]
 
-for row in range(ROWS):
-    row_cells = []
 
-    for col in range(COLS):
-        row_cells.append(Cell(row, col))
+def get_neighbors(cell):
+    neighbors = []
 
-    grid.append(row_cells)
+    directions = [
+        (-1, 0),
+        (1, 0),
+        (0, -1),
+        (0, 1)
+    ]
+
+    for dr, dc in directions:
+        nr = cell.row + dr
+        nc = cell.col + dc
+
+        if 0 <= nr < ROWS and 0 <= nc < COLS:
+            neighbor = grid[nr][nc]
+
+            if not neighbor.visited:
+                neighbors.append(neighbor)
+
+    return neighbors
+
+
+current = grid[0][0]
+current.visited = True
 
 
 while True:
@@ -71,5 +97,16 @@ while True:
         for cell in row:
             cell.draw()
 
+    neighbors = get_neighbors(current)
+
+    if neighbors:
+        current = random.choice(neighbors)
+        current.visited = True
+
+    x = current.col * CELL_SIZE + CELL_SIZE // 2
+    y = current.row * CELL_SIZE + CELL_SIZE // 2
+
+    pygame.draw.circle(screen, GREEN, (x, y), CELL_SIZE // 4)
+
     pygame.display.update()
-    clock.tick(60)
+    clock.tick(10)

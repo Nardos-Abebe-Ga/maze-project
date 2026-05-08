@@ -1,3 +1,6 @@
+The link for the loom recording:https://www.loom.com/share/333fe97e398a472a91a77b7d2f4cdedc
+
+
 Maze Generator and Solver
 
 This project generates and solves a random rectangular maze using Python and Pygame.
@@ -19,3 +22,4 @@ Maze traversal and solving
 Randomized path creation
 
 Bonus functionality includes random cycle creation by occasionally removing extra walls.
+
